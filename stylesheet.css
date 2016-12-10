@@ -1,0 +1,164 @@
+/* ------- START FUNDAMENTAL STYLES --------- */
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background-color: #ffffff;
+}
+
+#wrapper {
+    min-height: 100%;
+    margin-bottom: -100px;
+}
+
+/* ------- END FUNDAMENTAL STYLES --------- */
+
+/* ------- START HEADER STYLES --------- */
+
+#header {
+    background-color: #ffffff;
+    border-bottom: 8px solid #de1b1b;
+    margin-bottom: 10px;
+}
+
+.header-text {
+    color: #2b2b2b;
+    font: 38px Arial;
+    padding: 60px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/* ------- END HEADER STYLES --------- */
+
+#site-body {
+    background-color: #2b2b2b;
+    padding-bottom: 150px;
+}
+
+.main {
+    padding-top: 20px;
+}
+
+.container {
+    margin: 0 auto;
+    width: 1000px;
+}
+
+/* ------- START BASIC STYLES --------- */
+
+h1 {
+    margin: 0px;
+}
+
+h2 {
+    color: #ffffff;
+    font-size: 36px;
+}
+
+h3 {
+    color: #ffffff;
+}
+
+/* ------- END BASIC STYLES --------- */
+
+/* ------- START CLEARFIX STYLES --------- */
+
+.cf:before, .cf:after {
+  content: "";
+  display: table;
+}
+
+.cf:after {
+  clear: both;
+}
+
+/* ------- END CLEARFIX STYLES --------- */
+
+/* ------- START MESSAGE STYLES --------- */
+
+.message {
+    text-align: center;
+
+}
+
+/* ------- START MESSAGE STYLES --------- */
+
+
+/* ------- START FORM STYLES --------- */
+
+.form-container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    margin: 0 auto;
+    /*margin-top: 50px;*/
+    padding: 20px;
+    width: 500px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+li:not(:last-child), li:last-child {
+    background-color: #e9e581;
+    border-radius: 0 15px 15px 0;
+    font-size: 30px;
+
+}
+
+li:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+ul li input {
+    background-color: #2b2b2b;
+    border: none;
+    color: #e9e581;
+    font: inherit;
+    text-transform: capitalize;
+}
+
+ul li input:hover {
+    background-color: #ffffff;
+    color: #2b2b2b;
+    cursor: pointer;
+}
+
+.vote-count, .genre {
+    display: inline-block;
+}
+
+.genre {
+    color: #000;
+}
+
+.vote-count {
+    margin: 0 10px 0 10px;
+}
+
+/* ------- START FORM STYLES --------- */
+
+/* ------- START FOOTER STYLES --------- */
+
+#footer {
+    background-color: #000000;
+    height: 120px;
+    width: 100%;
+}
+
+.footer-text {
+    color: #2b2b2b;
+    font: 20px Arial;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/* ------- END FOOTER STYLES --------- */
