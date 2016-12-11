@@ -3,8 +3,8 @@
 class Vote
 {
 
-    public $data;
-    // default message
+    public $data = [];
+
     public $message = 'Pick your favourite genre';
     public $template;
 
@@ -14,8 +14,10 @@ class Vote
     private $dbName = 'voting_system';
     private $dbConnection;
 
+    private $ip;
+
     /**
-     * Attempt to connect to database
+     * Connect to database
      *
      * @return void
      */
@@ -28,6 +30,8 @@ class Vote
             $this->message = $e->getMessage();
             $this->template = 'views/error.php';
         }
+
+        $this->ip = $this->getIp();
     }
 
     /**
@@ -37,7 +41,7 @@ class Vote
      */
     private function connectToDb()
     {
-        /* activate reporting */
+        // activate reporting
         $driver = new MySQLi_Driver();
         $driver->report_mode = MYSQLI_REPORT_STRICT;
 
@@ -54,20 +58,23 @@ class Vote
      */
     public function addVote($vote)
     {
-        // genre name
-        $genre = key($vote);
+        $this->message = 'Sorry, you have already voted.';
 
-        // update vote count and get id of
-        // last updated row
-        $genreId = $this->updateVotes($genre);
+        if (!$this->checkIpExists($this->ip)) {
+            // genre name
+            $genre = key($vote);
 
-        // insert into ips table
-        $this->insertIp($genreId);
+            // update vote count and get id of
+            // last updated row
+            $genreId = $this->updateVotes($genre);
 
-        // all votes data
-        $this->getVotes();
+            // insert into ips table
+            $this->storeIp($genreId);
 
-        $this->message = 'Thank you for voting!';
+            $this->getVotes();
+
+            $this->message = 'Thank you for voting!';
+        }
     }
 
     /**
@@ -97,7 +104,7 @@ class Vote
     }
 
     /**
-     * Update vote count and get id of a particular genre and
+     * Update vote count and get id of updated genre
      *
      * @param  string $genre genre name
      * @return int           genre id
@@ -126,28 +133,55 @@ class Vote
     private function getGenre($genreId)
     {
         $sql = "SELECT genre FROM genres WHERE genre_id = $genreId";
-        if (!$result = $this->dbConnection->query($sql)) {
-            die($this->dbConnection->error);
-        }
+
         return $result->fetch_assoc()['genre'];
     }
 
     /**
-     * Store IP of voter
+     * Store user IP
      *
      * @param  string $genreId genre id
      * @return void
      */
-    private function insertIp($genreId)
+    private function storeIp($genreId)
     {
         $currentIp = mysqli_real_escape_string($this->dbConnection,
-            ip2long($_SERVER['REMOTE_ADDR']));
+            ip2long($this->getIp()));
 
         $sql = "INSERT INTO ips (ip, genre_id) ";
-        $sql .= "VALUES ($currentIp, $genreId)";
+        $sql .= "VALUES ($this->ip, $genreId)";
 
         if (!$result = $this->dbConnection->query($sql)) {
             die($this->dbConnection->error);
         }
+    }
+
+    /**
+     * Check if ip exists
+     *
+     * @param  int $ip ip address in a long integer format
+     * @return boolean true if ip exist in database
+     */
+    private function checkIpExists($ip)
+    {
+        $sql = "SELECT * FROM ips WHERE ip = $ip";
+        $result = $this->dbConnection->query($sql);
+
+        if ($result->num_rows !== 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get user's ip address
+     *
+     * @return string ip address
+     */
+    private function getIp()
+    {
+        return $this->dbConnection->real_escape_string(
+            ip2long($_SERVER['REMOTE_ADDR']));
     }
 }
